@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<project name="HelloWorld" basedir="." default="build.debug">
+	<!-- 
+	Build System Setup:
+
+	We're assuming the environment variable BSLandingZone is present.
+	This represents the location on disk that we'll be pushing compile
+	output bits to... and building our package structures into.
+
+	The following variables are of interest...
+
+	**** $(BSLandingZone) 	>>>> ${output.root} (sorta)
+	**** ${basedir} 	>>>> ${proj.root}
+
+	${output.root}		=	Where Compile Output goes
+	${logging.root}		=	Where the Log Output goes
+	${proj.root}		=	Base directory of Sources
+	${src.root}		=	Where .m, .h, and .pch should be
+	${nib.root}		=	Where .xib and .nib files should exist
+					in a localized state (IE English.lproj)
+	${BuildSystem.root}	=	Location for shared BuildSystem files
+					as expected to be.
+	-->
+
+
+	<!-- Bring in the Environemnt Variables -->
+	<property environment="env" />
+
+	<!--
+	***********************************************************************
+	Specify key variables for compile output
+	***********************************************************************
+	-->
+	<fail message="Build System Landing Zone Not Set or Directory Missing">
+		<condition>
+			<not>
+				<and>
+					<isset property="env.BSLandingZone" />
+					<available file="${env.BSLandingZone}" type="dir" property="LZ.Exists" />
+				</and>
+			</not>
+		</condition>
+	</fail>
+	<!-- Assuming Environment Variable BSLandingZone -->
+	<property name="output.root" value="${env.BSLandingZone}/deliverables" />
+	<property name="logging.root" value="${env.BSLandingZone}/buildlogs" />
+	<property name="obj.root" value="${env.BSLandingZone}/objects" />
+
+	
+	<!--
+	***********************************************************************
+	Specify some key variables for compiling projects
+	***********************************************************************	
+	-->
+
+	<property name="proj.root" value="${basedir}" /> 
+	<!-- This seems funny... but this allows us to custom-tailor our
+	project root variable independent of the basedir (which can be 
+	adjusted by several factors -->
+
+	<property name="src.root" value="${proj.root}/Src" />
+	<property name="nib.root" value="${proj.root}/NIBs" />
+
+	<!-- TODO: Need to do conditionals to check for BuildSystem at multiple
+	levels -->
+	<property name="BuildSystem.root" value="${proj.root}/../../../BuildSystem" />
+	
+	<!--
+	***********************************************************************
+	Specify some key variables for compiling THIS projects
+	***********************************************************************	
+	-->
+	<!-- Mac Application Bundle Name -->
+	<property name="app.bundle.name" value="HelloWorld.app" />
+	
+	<!--
+	***********************************************************************
+	Start the Heavy Lifting....
+	***********************************************************************	
+	-->
+
+	<!-- OS Detection -->
+	<condition property="platform.mac">
+		<and>
+			<!-- Filter for OS X, not Classic OS -->
+			<os family="mac" />
+			<os family="unix" />
+		</and>
+	</condition>
+	<condition property="platform.windows">
+		<!-- No Love for the old 9x boxes -->
+		<os family="winnt" />
+	</condition>
+	<condition property="platform.unix">
+		<and>
+			<!-- Unix and other Linux derivatives -->
+			<os family="unix" />
+			<not>
+				<os family="mac" />
+			</not>
+		</and>
+	</condition>
+
+	<target name="init">
+		<echo message="Starting Build Init..." />
+		<tstamp />
+		<echo message="-   Creating Output Root..." />
+		<mkdir dir="${output.root}" />
+		<echo message="-   Creating Logging Root..." />
+		<mkdir dir="${logging.root}" />
+		<echo message="-   Creating Objects Root..." />
+		<mkdir dir="${obj.root}" />
+		<echo message="-   Checking Platform:" />
+		<echo message="        os.name    = ${os.name}" />
+		<echo message="        os.arch    = ${os.arch}" />
+		<echo message="        os.version = ${os.version}" />
+		<echo message="-   Creating Output Bundle Directory Structure..." />
+		<mkdir dir="${output.root}/${app.bundle.name}" />
+		<mkdir dir="${output.root}/${app.bundle.name}/Contents/" />
+		<mkdir dir="${output.root}/${app.bundle.name}/Contents/MacOS" />
+		<mkdir dir="${output.root}/${app.bundle.name}/Contents/Resources" />
+		<mkdir dir="${output.root}/${app.bundle.name}/Contents/Resources/English.lproj" />
+
+	</target>
+
+
+
+	<target name="clean" description="Purges all Compiled output bits and bundles">
+		<delete 
+			dir="${output.root}/**" 
+			verbose="true"
+			includeemptydirs="true"
+			failonerror="false" />
+	</target>
+
+
+	<!-- DEBUG BUILDS -->
+
+	<target name="build.debug" description="Compiles code with DEBUG symbols" depends="build.debug.mac, build.debug.windows, build.debug.unix">
+		<echo message="Executing Debug Build..." />
+		<fail message="Doesn't look like we support your platform...">
+			<condition>
+				<not>
+					<isset property="ran.debug.build" />
+				</not>
+			</condition>
+		</fail>
+	</target>
+
+
+	<target name="build.debug.mac" if="platform.mac" depends="init">
+		<ant antfile="Src/build.xml" target="compile.debug" />
+		<echo message="!   build.debug.mac NOT IMPLEMENTED" />
+		<property name="ran.debug.build" value="true" /> 
+	</target>
+
+	<target name="build.debug.windows" if="platform.windows" depends="init">
+		<echo message="!   build.debug.windows NOT IMPLEMENTED" />
+		<property name="ran.debug.build" value="true" />
+	</target>
+
+	<target name="build.debug.unix" if="platform.unix" depends="init">
+		<echo message="!   build.debug.unix NOT IMPLEMENTED" />
+		<property name="ran.debug.build" value="true" />
+	</target>
+
+
+
+	<!-- DIST BUILDS -->
+
+	<target name="build.dist" description="Compiles code with dist symbols" depends="build.dist.mac, build.dist.windows, build.dist.unix">
+		<echo message="Executing DIST Build..." />
+		<fail message="Doesn't look like we support your platform...">
+			<condition>
+				<not>
+					<isset property="ran.dist.build" />
+				</not>
+			</condition>
+		</fail>
+		<property name="ran.dist.build" value="true" />
+	</target>
+
+
+	<target name="build.dist.mac" if="platform.mac" depends="init">
+		<echo message="!   build.dist.mac NOT IMPLEMENTED" />
+		<property name="ran.dist.build" value="true" />
+	</target>
+
+	<target name="build.dist.windows" if="platform.windows" depends="init">
+		<echo message="!   build.dist.windows NOT IMPLEMENTED" />
+		<property name="ran.dist.build" value="true" />
+	</target>
+
+	<target name="build.dist.unix" if="platform.unix" depends="init">
+		<echo message="!   build.dist.unix NOT IMPLEMENTED" />
+		<property name="ran.dist.build" value="true" />
+	</target>
+
+
+
+	<!-- Post-Processing -->
+
+</project>
