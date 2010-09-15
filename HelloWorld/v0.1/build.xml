@@ -89,8 +89,8 @@
 	</target>
 
 	<target name="build.debug.mac" if="platform.mac" depends="init">
-		<echo message="!   build.debug.mac NOT IMPLEMENTED" />
-		<!-- <property name="BuildRan" value="true" /> -->
+		<ant antfile="${proj.root}/Src/build.xml" target="compile.debug" output="${logging.root}/build.debug.mac.HelloWorld.log.txt" />
+		<property name="BuildRan" value="true" />
 	</target>
 
 	<target name="build.debug.unix" if="platform.unix" depends="init">
