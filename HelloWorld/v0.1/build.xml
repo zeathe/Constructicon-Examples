@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<project name="HelloWorld" basedir="." default="build.dist">
+	<!-- 
+	Build System Setup:
+
+	We're assuming the environment variable BSLandingZone is present.
+	This represents the location on disk that we'll be pushing compile
+	output bits to... and building our package structures into.
+
+	The following variables are of interest...
+
+	**** $(BSLandingZone) 	>>>> ${output.root} (sorta)
+	**** ${basedir} 	>>>> ${proj.root}
+
+	${output.root}		=	Where Compile Output goes
+	${logging.root}		=	Where the Log Output goes
+	${proj.root}		=	Base directory of Sources
+	${src.root}		=	Where .m, .h, and .pch should be
+	${nib.root}		=	Where .xib and .nib files should exist
+					in a localized state (IE English.lproj)
+	${BuildSystem.root}	=	Location for shared BuildSystem files
+					as expected to be.
+	-->
+
+
+	<!--
+	***********************************************************************
+	Start the Heavy Lifting....
+	***********************************************************************	
+	-->
+
+	<target name="init">
+		<!-- Windows OS -->
+		<condition property="platform.windows">
+			<os family="windows" />
+		</condition>
+
+		<!-- Mac OS X Platform, No Classic Mac Support -->
+		<condition property="platform.mac">
+			<and>
+				<os family="mac" />
+				<os family="unix" />
+			</and>
+		</condition>
+
+		<!-- Unix/Linux Platform, excluding Mac OS X -->
+		<condition property="platform.unix">
+			<and>
+				<os family="unix" />
+				<not>
+					<os family="mac" />
+				</not>
+			</and>
+		</condition>
+	</target>
+
+
+
+	<target name="clean" description="Purges all Compiled output bits and bundles" depends="init">
+		<delete 
+			dir="${output.root}/**" 
+			verbose="true"
+			includeemptydirs="true"
+			failonerror="false" />
+	</target>
+
+
+	<!-- DEBUG BUILDS -->
+
+	<target name="build.debug" description="Compiles code with DEBUG symbols" depends="build.debug.mac, build.debug.windows, build.debug.unix">
+		
+	</target>
+
+
+	<target name="build.debug.windows" if="platform.windows">
+		<echo message="!   build.debug.windows NOT IMPLEMENTED" />
+	</target>
+
+	<target name="build.debug.mac" if="platform.mac">
+		<echo message="!   build.debug.mac NOT IMPLEMENTED" />
+	</target>
+
+	<target name="build.debug.unix" if="platform.unix">
+		<echo message="!   build.debug.unix NOT IMPLEMENTED" />
+	</target>
+
+	<!-- DIST BUILDS -->
+
+	<target name="build.dist" description="Compiles code with dist symbols" depends="build.dist.mac, build.dist.windows, build.dist.unix">
+
+	</target>
+
+
+	<target name="build.dist.windows" if="platform.windows">
+		<echo message="!   build.dist.windows NOT IMPLEMENTED" />
+	</target>
+
+	<target name="build.dist.mac" if="platform.mac">
+		<echo message="!   build.dist.mac NOT IMPLEMENTED" />
+	</target>
+
+	<target name="build.dist.unix" if="platform.unix">
+		<echo message="!   build.dist.unix NOT IMPLEMENTED" />
+	</target>
+
+	<!-- Post-Processing -->
+
+</project>
