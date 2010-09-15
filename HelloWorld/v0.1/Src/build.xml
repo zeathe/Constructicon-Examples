@@ -27,7 +27,6 @@
 	-->
 
 	<target name="compile.debug">
-		<antcall target="build.app.bundle.debug" />
 		<property name="obj.root.debug" value="${obj.root}/debug" />
 		<mkdir dir="${obj.root.debug}/HelloWorld" />
 		<!-- Debug Compile Shiz -->
