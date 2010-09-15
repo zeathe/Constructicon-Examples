@@ -27,7 +27,9 @@
 	-->
 
 	<target name="compile.debug">
-		<mkdir dir="${obj.root}/HelloWorld" />
+		<antcall target="build.app.bundle.debug" />
+		<property name="obj.root.debug" value="${obj.root}/debug" />
+		<mkdir dir="${obj.root.debug}/HelloWorld" />
 		<!-- Debug Compile Shiz -->
 		<exec executable="gcc" dir="${proj.root}/Src" failonerror="true">
 			<arg value="-Wall" />
@@ -40,16 +42,16 @@
 			<arg value="-ftime-report" />
 			<arg value="-fmem-report" />
 			<arg value="-o" />
-			<arg value="${obj.root}/HelloWorld/HelloWorld" />
+			<arg value="${obj.root.debug}/HelloWorld/HelloWorld" />
 			<arg value="-framework" />
 			<arg value="cocoa" />
 			<arg value="-framework" />
 			<arg value="foundation" />
 			<arg value="main.m" />
 		</exec>
-		<checksum file="${obj.root}/HelloWorld/HelloWorld" algorithm="SHA" fileext=".sha" />
-		<copy file="${obj.root}/HelloWorld/HelloWorld" todir="${output.root}/${app.bundle.name}/Contents/MacOS" />
-		<chmod file="${output.root}/${app.bundle.name}/Contents/MacOS/HelloWorld" perm="ugo+rx" />
+		<checksum file="${obj.root.debug}/HelloWorld/HelloWorld" algorithm="SHA" fileext=".sha" />
+		<copy file="${obj.root.debug}/HelloWorld/HelloWorld" todir="${app.bundle.debug}/Contents/MacOS" />
+		<chmod file="${app.bundle.debug}/Contents/MacOS/HelloWorld" perm="ugo+rx" />
 
 	</target>
 

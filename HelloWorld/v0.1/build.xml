@@ -30,6 +30,7 @@
 	<property name="proj.root" value="${basedir}" />
 	<property name="src.root" value="${proj.root}/Src" />
 	<property name="nib.root" value="${proj.root}/NIBs" />
+	<property name="app.bundle.name" value="HelloWorld.app" />
 
 	<!--
 	***********************************************************************
@@ -88,23 +89,6 @@
 	</target>
 
 
-	<target name="build.debug.windows" if="platform.windows" depends="init">
-		<echo message="!   build.debug.windows NOT IMPLEMENTED" />
-		<!-- <property name="BuildRan" value="true" /> -->
-	</target>
-
-	<target name="build.debug.mac" if="platform.mac" depends="init">
-		<ant antfile="${proj.root}/Src/build.xml" target="compile.debug" output="${logging.root}/build.debug.mac.HelloWorld.log.txt" />
-		<property name="BuildRan" value="true" />
-	</target>
-
-	<target name="build.debug.unix" if="platform.unix" depends="init">
-		<echo message="!   build.debug.unix NOT IMPLEMENTED" />
-		<!-- <property name="BuildRan" value="true" /> -->
-	</target>
-
-
-
 	<!-- DIST BUILDS -->
 
 	<target name="build.dist" description="Compiles code with dist symbols" depends="build.dist.mac, build.dist.windows, build.dist.unix">
@@ -118,23 +102,70 @@
 	
 	</target>
 
+	<!--
+	***********************************************************************
+	Platform-specific Tasks....
+	***********************************************************************	
+	-->
+
+
+	<!-- platform.windows shiznit -->
+
+	<target name="build.debug.windows" if="platform.windows" depends="init">
+		<echo message="!   build.debug.windows NOT IMPLEMENTED" />
+		<!-- <property name="BuildRan" value="true" /> -->
+	</target>
 
 	<target name="build.dist.windows" if="platform.windows" depends="init">
 		<echo message="!   build.dist.windows NOT IMPLEMENTED" />
 		<!-- <property name="BuildRan" value="true" /> -->
 	</target>
 
+
+
+
+	<!-- platform.mac shiznit -->
+
+        <target name="build.app.bundle.debug">
+		<property name="app.bundle.debug" value="${output.root}/DEBUG/${app.bundle.name}" />                
+		<mkdir dir="${app.bundle.debug}/Contents" />
+		<mkdir dir="${app.bundle.debug}/Contents/MacOS" />
+		<mkdir dir="${app.bundle.debug}/Contents/Resources" />
+		<mkdir dir="${app.bundle.debug}/Contents/Resources/English.lproj" />
+       </target>
+
+	<target name="build.debug.mac" if="platform.mac" depends="init">
+		<antcall target="build.app.bundle.debug" />
+		<ant antfile="${proj.root}/Src/build.xml" target="compile.debug" output="${logging.root}/build.debug.mac.HelloWorld.log.txt" />
+		<property name="BuildRan" value="true" />
+	</target>
+
+        <target name="build.app.bundle.dist">
+		<property name="app.bundle.dist" value="${output.root}/DIST/${app.bundle.name}" />                
+		<mkdir dir="${app.bundle.dist}/Contents" />
+		<mkdir dir="${app.bundle.dist}/Contents/MacOS" />
+		<mkdir dir="${app.bundle.dist}/Contents/Resources" />
+		<mkdir dir="${app.bundle.dist}/Contents/Resources/English.lproj" />
+	</target>
+
 	<target name="build.dist.mac" if="platform.mac" depends="init">
+		<antcall target="build.app.bundle.dist" />
 		<ant antfile="${proj.root}/Src/build.xml" target="compile.dist" output="${logging.root}/build.dist.mac.HelloWorld.log.txt" />
 		<property name="BuildRan" value="true" />
+	</target>
+
+
+	<!-- platform.unix shiznit -->
+
+	<target name="build.debug.unix" if="platform.unix" depends="init">
+		<echo message="!   build.debug.unix NOT IMPLEMENTED" />
+		<!-- <property name="BuildRan" value="true" /> -->
 	</target>
 
 	<target name="build.dist.unix" if="platform.unix" depends="init">
 		<echo message="!   build.dist.unix NOT IMPLEMENTED" />
 		<!-- <property name="BuildRan" value="true" /> -->
 	</target>
-
-
 
 	<!-- Post-Processing -->
 
