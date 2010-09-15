@@ -30,6 +30,9 @@
 	-->
 
 	<target name="init">
+		<!-- Tracking Properties -->
+		<property name="BuildRan" value="false" />
+
 		<!-- Windows OS -->
 		<condition property="platform.windows">
 			<os family="windows" />
@@ -65,43 +68,68 @@
 	</target>
 
 
+
 	<!-- DEBUG BUILDS -->
 
 	<target name="build.debug" description="Compiles code with DEBUG symbols" depends="build.debug.mac, build.debug.windows, build.debug.unix">
+		<fail message="!   Sorry, looks like we don't support your platform...">
+			<condition>
+				<not>
+					<equals arg1="${BuildRan}" arg2="true" />
+				</not>
+			</condition>
+		</fail>
 		
 	</target>
 
 
-	<target name="build.debug.windows" if="platform.windows">
+	<target name="build.debug.windows" if="platform.windows" depends="init">
 		<echo message="!   build.debug.windows NOT IMPLEMENTED" />
+		<!-- <property name="BuildRan" value="true" /> -->
 	</target>
 
-	<target name="build.debug.mac" if="platform.mac">
+	<target name="build.debug.mac" if="platform.mac" depends="init">
 		<echo message="!   build.debug.mac NOT IMPLEMENTED" />
+		<!-- <property name="BuildRan" value="true" /> -->
 	</target>
 
-	<target name="build.debug.unix" if="platform.unix">
+	<target name="build.debug.unix" if="platform.unix" depends="init">
 		<echo message="!   build.debug.unix NOT IMPLEMENTED" />
+		<!-- <property name="BuildRan" value="true" /> -->
 	</target>
+
+
 
 	<!-- DIST BUILDS -->
 
 	<target name="build.dist" description="Compiles code with dist symbols" depends="build.dist.mac, build.dist.windows, build.dist.unix">
-
+		<fail message="!   Sorry, looks like we don't support your platform...">
+			<condition>
+				<not>
+					<equals arg1="${BuildRan}" arg2="true" />
+				</not>
+			</condition>
+		</fail>
+	
 	</target>
 
 
-	<target name="build.dist.windows" if="platform.windows">
+	<target name="build.dist.windows" if="platform.windows" depends="init">
 		<echo message="!   build.dist.windows NOT IMPLEMENTED" />
+		<!-- <property name="BuildRan" value="true" /> -->
 	</target>
 
-	<target name="build.dist.mac" if="platform.mac">
+	<target name="build.dist.mac" if="platform.mac" depends="init">
 		<echo message="!   build.dist.mac NOT IMPLEMENTED" />
+		<!-- <property name="BuildRan" value="true" /> -->
 	</target>
 
-	<target name="build.dist.unix" if="platform.unix">
+	<target name="build.dist.unix" if="platform.unix" depends="init">
 		<echo message="!   build.dist.unix NOT IMPLEMENTED" />
+		<!-- <property name="BuildRan" value="true" /> -->
 	</target>
+
+
 
 	<!-- Post-Processing -->
 

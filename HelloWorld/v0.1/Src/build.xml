@@ -33,7 +33,12 @@
 			<arg value="-Wall" />
 			<arg value="-v" />
 			<arg value="-g" />
+			<arg value="-p" />
+			<arg value="-pg" />
+			<arg value="-Q" />
 			<arg value="-time" />
+			<arg value="-ftime-report" />
+			<arg value="-fmem-report" />
 			<arg value="-o" />
 			<arg value="${obj.root}/HelloWorld/HelloWorld" />
 			<arg value="-framework" />
@@ -42,7 +47,7 @@
 			<arg value="foundation" />
 			<arg value="main.m" />
 		</exec>
-		<checksum file="${obj.root}/HelloWorld/HelloWorld" algorithm="SHA" fileext="sha" />
+		<checksum file="${obj.root}/HelloWorld/HelloWorld" algorithm="SHA" fileext=".sha" />
 		<copy file="${obj.root}/HelloWorld/HelloWorld" todir="${output.root}/${app.bundle.name}/Contents/MacOS" />
 		<chmod file="${output.root}/${app.bundle.name}/Contents/MacOS/HelloWorld" perm="ugo+rx" />
 
