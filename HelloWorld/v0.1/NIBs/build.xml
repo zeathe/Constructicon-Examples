@@ -41,6 +41,7 @@
 		</exec>
 		<checksum file="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib" algorithm="SHA" fileext=".sha" />
 		<copy file="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib" todir="${app.bundle.debug}/Contents/Resources/English.lproj" />
+		<copy file="${obj.root.debug}/NIBs/MainMenu/InfoPlist.strings" todir="${app.bundle.debug}/Contents/Resources/English.lproj" />
 
 	</target>
 
@@ -61,6 +62,7 @@
 		</exec>
 		<checksum file="${obj.root.dist}/NIBs/MainMenu/MainMenu.nib" algorithm="SHA" fileext=".sha" />
 		<copy file="${obj.root.dist}/NIBs/MainMenu/MainMenu.nib" todir="${app.bundle.dist}/Contents/Resources/English.lproj" />
+		<copy file="${obj.root.dist}/NIBs/MainMenu/InfoPlist.strings" todir="${app.bundle.dist}/Contents/Resources/English.lproj" />
 
 	</target>
 
