@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<project name="HelloWorld" basedir="." default="build.dist">
+<project name="HelloWorld" basedir="." default="default">
 	<!-- 
 	Build System Setup:
 
@@ -73,7 +73,15 @@
 			failonerror="false" />
 	</target>
 
-
+	<target name="default" description="Default Clean/Build Process">
+		<echo message="Starting DEFAULT build target..." />
+		<echo message="- Calling CLEAN..." />
+		<antcall target="clean" />
+		<echo message="- Calling BUILD.DEBUG..." />
+		<antcall target="build.debug" />
+		<echo message="- Calling BUILD.DIST..." />
+		<antcall target="build.dist" />
+	</target>
 
 	<!-- DEBUG BUILDS -->
 
@@ -126,22 +134,28 @@
 
 	<!-- platform.mac shiznit -->
 
+
         <target name="build.app.bundle.debug">
-		<property name="app.bundle.debug" value="${output.root}/DEBUG/${app.bundle.name}" />                
 		<mkdir dir="${app.bundle.debug}/Contents" />
 		<mkdir dir="${app.bundle.debug}/Contents/MacOS" />
 		<mkdir dir="${app.bundle.debug}/Contents/Resources" />
 		<mkdir dir="${app.bundle.debug}/Contents/Resources/English.lproj" />
        </target>
 
-	<target name="build.debug.mac" if="platform.mac" depends="init">
-		<antcall target="build.app.bundle.debug" />
-		<ant antfile="${proj.root}/Src/build.xml" target="compile.debug" output="${logging.root}/build.debug.mac.HelloWorld.log.txt" />
-		<property name="BuildRan" value="true" />
+       <target name="build.debug.mac" if="platform.mac" depends="init">
+	       <!-- debug Mac Properties Cluster -->
+	       <property name="app.bundle.debug" value="${output.root}/DEBUG/${app.bundle.name}" />                
+
+	       <antcall target="build.app.bundle.debug" />
+
+	       <ant antfile="${proj.root}/Src/build.xml" target="compile.debug" output="${logging.root}/build.debug.mac.HelloWorld.log.txt" />
+
+	       <ant antfile="${proj.root}/NIBs/build.xml" target="compile.debug" output="${logging.root}/build.debug.mac.MainMenuNIB.log.txt" />
+
+	       <property name="BuildRan" value="true" />
 	</target>
 
         <target name="build.app.bundle.dist">
-		<property name="app.bundle.dist" value="${output.root}/DIST/${app.bundle.name}" />                
 		<mkdir dir="${app.bundle.dist}/Contents" />
 		<mkdir dir="${app.bundle.dist}/Contents/MacOS" />
 		<mkdir dir="${app.bundle.dist}/Contents/Resources" />
@@ -149,8 +163,15 @@
 	</target>
 
 	<target name="build.dist.mac" if="platform.mac" depends="init">
+		<!-- dist Mac Properties Cluster -->
+		<property name="app.bundle.dist" value="${output.root}/DIST/${app.bundle.name}" />                
+
+
 		<antcall target="build.app.bundle.dist" />
 		<ant antfile="${proj.root}/Src/build.xml" target="compile.dist" output="${logging.root}/build.dist.mac.HelloWorld.log.txt" />
+
+		<ant antfile="${proj.root}/NIBs/build.xml" target="compile.dist" output="${logging.root}/build.dist.mac.MainMenuNIB.log.txt" />
+
 		<property name="BuildRan" value="true" />
 	</target>
 
@@ -168,5 +189,7 @@
 	</target>
 
 	<!-- Post-Processing -->
+
+
 
 </project>

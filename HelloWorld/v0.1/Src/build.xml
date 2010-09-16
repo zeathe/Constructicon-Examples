@@ -54,9 +54,30 @@
 
 	</target>
 
+
+
 	<target name="compile.dist">
-		<echo message="!   compile.dist NOT IMPLEMENTED" />
+		<property name="obj.root.dist" value="${obj.root}/dist" />
+		<mkdir dir="${obj.root.dist}/HelloWorld" />
 		<!-- Dist/Retail Compile Shiz -->
+		<exec executable="gcc" dir="${proj.root}/Src" failonerror="true">
+			<arg value="-Wall" />
+			<arg value="-v" />
+			<arg value="-Q" />
+			<arg value="-time" />
+			<arg value="-ftime-report" />
+			<arg value="-fmem-report" />
+			<arg value="-o" />
+			<arg value="${obj.root.dist}/HelloWorld/HelloWorld" />
+			<arg value="-framework" />
+			<arg value="cocoa" />
+			<arg value="-framework" />
+			<arg value="foundation" />
+			<arg value="main.m" />
+		</exec>
+		<checksum file="${obj.root.dist}/HelloWorld/HelloWorld" algorithm="SHA" fileext=".sha" />
+		<copy file="${obj.root.dist}/HelloWorld/HelloWorld" todir="${app.bundle.dist}/Contents/MacOS" />
+		<chmod file="${app.bundle.dist}/Contents/MacOS/HelloWorld" perm="ugo+rx" />
 	</target>
 
 
