@@ -140,6 +140,8 @@
 		<mkdir dir="${app.bundle.debug}/Contents/MacOS" />
 		<mkdir dir="${app.bundle.debug}/Contents/Resources" />
 		<mkdir dir="${app.bundle.debug}/Contents/Resources/English.lproj" />
+		<copy file="${proj.root}/PkgInfo" todir="${app.bundle.debug}/Contents" />
+		<copy file="${proj.root}/Info.plist" todir="${app.bundle.debug}/Contents" />
        </target>
 
        <target name="build.debug.mac" if="platform.mac" depends="init">
@@ -160,6 +162,8 @@
 		<mkdir dir="${app.bundle.dist}/Contents/MacOS" />
 		<mkdir dir="${app.bundle.dist}/Contents/Resources" />
 		<mkdir dir="${app.bundle.dist}/Contents/Resources/English.lproj" />
+		<copy file="${proj.root}/PkgInfo" todir="${app.bundle.dist}/Contents" />
+		<copy file="${proj.root}/Info.plist" todir="${app.bundle.dist}/Contents" />
 	</target>
 
 	<target name="build.dist.mac" if="platform.mac" depends="init">
