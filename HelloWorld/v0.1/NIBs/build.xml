@@ -39,6 +39,14 @@
 			<arg value="YES" />
 			<arg value="English.lproj/MainMenu.xib" />
 		</exec>
+
+		<exec executable="ibtool" dir="${proj.root}/NIBs" failonerror="true">
+			<arg value="--export-strings-file" />
+			<arg value="${obj.root.debug}/NIBs/MainMenu/InfoPlist.strings" />
+			<!-- <arg value="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib" /> -->
+			<arg value="English.lproj/MainMenu.xib" />
+		</exec>
+	
 		<checksum file="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib" algorithm="SHA" fileext=".sha" />
 		<copy file="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib" todir="${app.bundle.debug}/Contents/Resources/English.lproj" />
 		<copy file="${obj.root.debug}/NIBs/MainMenu/InfoPlist.strings" todir="${app.bundle.debug}/Contents/Resources/English.lproj" />
@@ -60,6 +68,15 @@
 			<arg value="YES" />
 			<arg value="English.lproj/MainMenu.xib" />
 		</exec>
+
+		<exec executable="ibtool" dir="${proj.root}/NIBs" failonerror="true">
+			<arg value="--export-strings-file" />
+			<arg value="${obj.root.dist}/NIBs/MainMenu/InfoPlist.strings" />
+			<!-- <arg value="${obj.root.dist}/NIBs/MainMenu/MainMenu.nib" /> -->
+			<arg value="English.lproj/MainMenu.xib" />
+		</exec>
+	
+
 		<checksum file="${obj.root.dist}/NIBs/MainMenu/MainMenu.nib" algorithm="SHA" fileext=".sha" />
 		<copy file="${obj.root.dist}/NIBs/MainMenu/MainMenu.nib" todir="${app.bundle.dist}/Contents/Resources/English.lproj" />
 		<copy file="${obj.root.dist}/NIBs/MainMenu/InfoPlist.strings" todir="${app.bundle.dist}/Contents/Resources/English.lproj" />
