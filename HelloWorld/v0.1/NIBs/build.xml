@@ -31,12 +31,14 @@
 		<mkdir dir="${obj.root.debug}/NIBs/MainMenu" />
 		<!-- Debug Compile Shiz -->
 		<exec executable="ibtool" dir="${proj.root}/NIBs" failonerror="true">
-			<arg value="--write" />
+			<arg value="--compile" />
 			<arg value="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib" />
+			<arg value="--warnings" />
+			<arg value="--errors" />
 			<arg value="--output-format" />
 			<arg value="xml1" />
 			<arg value="--flatten" />
-			<arg value="YES" />
+			<arg value="NO" />
 			<arg value="English.lproj/MainMenu.xib" />
 		</exec>
 
@@ -47,8 +49,16 @@
 			<arg value="English.lproj/MainMenu.xib" />
 		</exec>
 	
-		<checksum file="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib" algorithm="SHA" fileext=".sha" />
-		<copy file="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib" todir="${app.bundle.debug}/Contents/Resources/English.lproj" />
+		<checksum algorithm="SHA" fileext=".sha">
+			<fileset dir="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib">
+				<include name="*.nib" />
+			</fileset>
+		</checksum>
+		<copy todir="${app.bundle.debug}/Contents/Resources/English.lproj/MainMenu.nib">
+			<fileset dir="${obj.root.debug}/NIBs/MainMenu/MainMenu.nib">
+				<exclude name="**/*.sha" />
+			</fileset>
+		</copy>
 		<copy file="${obj.root.debug}/NIBs/MainMenu/InfoPlist.strings" todir="${app.bundle.debug}/Contents/Resources/English.lproj" />
 
 	</target>
