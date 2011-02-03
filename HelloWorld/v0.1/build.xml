@@ -20,12 +20,8 @@
 					in a localized state (IE English.lproj)
 	${BuildSystem.root}	=	Location for shared BuildSystem files
 					as expected to be.
-	${BuildSupport.root}	=	Location for 3rd Party headers, sources,
-					libraries, binaries, and support tools
-					to make the build function correctly.
 
 	-->
-
 
 	<!--
 	***********************************************************************
