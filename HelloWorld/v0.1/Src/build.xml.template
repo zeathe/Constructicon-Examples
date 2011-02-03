@@ -21,7 +21,7 @@
 	${BuildSystem.root}	=	Location for shared BuildSystem files
 					as expected to be.
 
-	This is a sub-project XML file.  It wil receive all of the above
+	This is a sub-project XML file.  It will receive all of the above
 	variables through inheritence.
 
 	-->
