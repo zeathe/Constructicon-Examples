@@ -88,6 +88,10 @@
 		<antcall target="build.debug" />
 		<echo message="- Calling BUILD.DIST..." />
 		<antcall target="build.dist" />
+		<echo message="- Building DEBUG Manifest..." />
+		<antcall target="manifest.debug" />
+		<echo message="- Building DIST Manifest..." />
+		<antcall target="manifest.dist" />
 	</target>
 
 	<!-- DEBUG BUILDS -->
@@ -201,6 +205,22 @@
 
 	<!-- Post-Processing -->
 
+	<target name="manifest.debug" depends="build.debug">
+		<checksum todir="${output.root}/DEBUG.MANIFEST" algorithm="SHA" pattern="SHA ({1}) = {0}" fileext=".sha.txt">
+			<fileset dir="${output.root}/DEBUG" />
+		</checksum>
+		<checksum todir="${output.root}/DEBUG.MANIFEST" algorithm="MD5" pattern="MD5 ({1}) = {0}" fileext=".md5.txt">
+			<fileset dir="${output.root}/DEBUG" />
+		</checksum>
+	</target>
 
+	<target name="manifest.dist" depends="build.dist">
+		<checksum todir="${output.root}/DIST.MANIFEST" algorithm="SHA" pattern="SHA ({1}) = {0}" fileext=".sha.txt">
+			<fileset dir="${output.root}/DIST" />
+		</checksum>
+		<checksum todir="${output.root}/DIST.MANIFEST" algorithm="MD5" pattern="MD5 ({1}) = {0}" fileext=".md5.txt">
+			<fileset dir="${output.root}/DIST" />
+		</checksum>
+	</target>
 
 </project>
